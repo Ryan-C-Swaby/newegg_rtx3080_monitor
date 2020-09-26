@@ -9,42 +9,41 @@ namespace Newegg_Rtx3080_Monitor
     {
         static void Main(string[] args)
         {
-            IWebDriver driver = new ChromeDriver();
-
-            bool keepChecking = true;
-            while (keepChecking)
+            using (var driver = new ChromeDriver())
             {
-                // This will open up the URL 
-                //driver.Url = "https://www.newegg.com/p/pl?d=rtx+3070+super";
-                driver.Url = "https://www.newegg.com/p/pl?d=rtx+3080";
-
-                try
+                bool keepChecking = true;
+                while (keepChecking)
                 {
-                    // Look for button with Add to cart text
-                    var addToCartButton = driver.FindElement(By.XPath("//button[.=\"Add to cart \"]"));
+                    // This will open up the URL 
+                    //driver.Url = "https://www.newegg.com/p/pl?d=rtx+3070+super";
+                    driver.Url = "https://www.newegg.com/p/pl?d=rtx+3080";
 
-                    // Alert beeps
-                    for (int i = 0; i < 30; i++)
+                    try
                     {
-                        Console.Beep();
-                        Console.Beep();
-                        Console.Beep();
-                        Thread.Sleep(2000);
+                        // Look for button with Add to cart text
+                        var addToCartButton = driver.FindElement(By.XPath("//button[.=\"Add to cart \"]"));
+
+                        // Alert beeps
+                        for (int i = 0; i < 30; i++)
+                        {
+                            Console.Beep();
+                            Console.Beep();
+                            Console.Beep();
+                            Thread.Sleep(2000);
+                        }
+                        // end loop
+                        keepChecking = false;
                     }
-                    // end loop
-                    keepChecking = false;
-                }
-                catch (Exception)
-                {
-                    Thread.Sleep(20000);
-                    driver.Navigate().Refresh();
+                    catch (Exception)
+                    {
+                        Thread.Sleep(30000);
+                        driver.Navigate().Refresh();
+                    }
                 }
 
+                driver.Close();
+                driver.Dispose();
             }
-
-            driver.Close();
-            driver.Dispose();
-          
         }
     }
 }
